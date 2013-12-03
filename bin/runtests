@@ -3,9 +3,14 @@
 import unittest
 import sys
 import os
+import logging
 
 
 class SilentTestResult(unittest._TextTestResult):
+    def startTest(self, test):
+        super(SilentTestResult, self).startTest(test)
+        logging.basicConfig(stream = sys.stdout, level = 'DEBUG')
+
     def _restoreStdout(self):
         self._mirrorOutput = False
         super(SilentTestResult, self)._restoreStdout()
