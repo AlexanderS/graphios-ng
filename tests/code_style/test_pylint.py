@@ -5,7 +5,7 @@ from pylint import lint
 from pylint.reporters.text import TextReporter
 
 class PylintTest(unittest.TestCase):
-    top = os.path.join(os.path.dirname(__file__), '..')
+    top = os.path.join(os.path.dirname(__file__), '..', '..')
 
     def test_pylint(self):
         rcfile = os.path.abspath(os.path.join(self.top, 'tests', 'pylint.rc'))

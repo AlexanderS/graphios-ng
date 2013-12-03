@@ -3,7 +3,7 @@ import pep8
 import os
 
 class Pep8Test(unittest.TestCase):
-    top = os.path.join(os.path.dirname(__file__), '..', 'graphios_ng')
+    top = os.path.join(os.path.dirname(__file__), '..', '..', 'graphios_ng')
 
     def test_pep8(self):
         pep8style = pep8.StyleGuide()
