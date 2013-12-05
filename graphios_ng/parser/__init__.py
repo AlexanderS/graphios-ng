@@ -1,13 +1,14 @@
 import importlib
 from graphios_ng.utils import with_log
+from graphios_ng.configurable import Configurable
 
 
-class Parser(object):
+class Parser(Configurable):
+    required_config = []
+
     @with_log
     def __init__(self, config, log=None):
-        self.config = config
-        log.debug('Creating %s with config: %s' %
-                  (self.__class__.__name__, config))
+        super(Parser, self).__init__(config)
 
     @with_log
     def parse_host_perfdata(self, path, log=None):

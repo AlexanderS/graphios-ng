@@ -1,14 +1,15 @@
 import importlib
 
 from graphios_ng.utils import with_log
+from graphios_ng.configurable import Configurable
 
 
-class Output(object):
+class Output(Configurable):
+    required_config = []
+
     @with_log
     def __init__(self, config, log=None):
-        self.config = config
-        log.debug('Creating %s with config: %s' %
-                  (self.__class__.__name__, config))
+        super(Output, self).__init__(config)
 
 
 @with_log
