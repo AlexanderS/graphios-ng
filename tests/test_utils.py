@@ -2,7 +2,7 @@ import unittest
 from graphios_ng import utils
 
 
-class UtilsTest(unittest.TestCase):
+class WithLogTest(unittest.TestCase):
     def test_with_log(self):
         @utils.with_log
         def testing(log=None):
