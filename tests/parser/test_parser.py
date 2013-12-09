@@ -13,7 +13,7 @@ class ParserTest(unittest.TestCase):
         config = {}
         p = parser.create_parser(config)
         self.assertIsNone(p)
-    
+
     def test_json_line_parser_type(self):
         config = {'type': 'json_line'}
         p = parser.create_parser(config)
