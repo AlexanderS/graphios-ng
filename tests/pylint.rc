@@ -34,8 +34,8 @@ load-plugins=
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once).
 
-# disable FIXME (W0511)
-disable=C,R,I,W0511
+# disable: FIXME (W0511), use * or ** magic (W0142)
+disable=C,R,I,W0511,W0142
 
 [REPORTS]
 

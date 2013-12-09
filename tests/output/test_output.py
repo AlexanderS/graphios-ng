@@ -15,7 +15,7 @@ class OuputTest(unittest.TestCase):
         self.assertIsNone(out)
 
     def test_extinfo_output_type(self):
-        config = {'type': 'extinfo'}
+        config = {'type': 'extinfo', 'dir': None, 'filename': None}
         out = output.create_output(config)
         self.assertIsNotNone(out)
         self.assertEquals(str(type(out)), "<class 'graphios_ng.output.extinfo.ExtinfoOutput'>")
@@ -33,7 +33,16 @@ class OuputTest(unittest.TestCase):
         self.assertEquals(str(type(out)), "<class 'graphios_ng.output.ngraph.NgraphOutput'>")
 
     def test_output_config(self):
-        config = {'type': 'extinfo', 'foobar': 123}
+        config = {'type': 'extinfo', 'dir': 123, 'filename': None}
         out = output.create_output(config)
         self.assertIsNotNone(out)
-        self.assertEquals(out.config['foobar'], 123)
+        self.assertEquals(out.config['dir'], 123)
+
+    def test_missing_config(self):
+        config = {'type': 'extinfo'}
+        config2 = {'type': 'extinfo', 'dir': None}
+        with self.assertRaises(ValueError):
+            output.create_output(config)
+
+        with self.assertRaises(ValueError):
+            output.create_output(config2)
