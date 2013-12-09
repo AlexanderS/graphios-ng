@@ -25,7 +25,7 @@ class ParserTest(unittest.TestCase):
         config = {'type': 'ngraph'}
         p = parser.create_parser(config)
         self.assertIsNotNone(p)
-        self.assertEquals(str(type(p)), "<class 'graphios_ng.parser.ngrpah.NgraphParser'>")
+        self.assertEquals(str(type(p)), "<class 'graphios_ng.parser.ngraph.NgraphParser'>")
 
     @unittest.skip('Not yet implemented')
     def test_pnp4nagios_parser_type(self):
