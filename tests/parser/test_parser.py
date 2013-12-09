@@ -20,14 +20,12 @@ class ParserTest(unittest.TestCase):
         self.assertIsNotNone(p)
         self.assertEquals(str(type(p)), "<class 'graphios_ng.parser.json_line.JsonLineParser'>")
 
-    @unittest.skip('Not yet implemented')
     def test_ngraph_parser_type(self):
         config = {'type': 'ngraph'}
         p = parser.create_parser(config)
         self.assertIsNotNone(p)
         self.assertEquals(str(type(p)), "<class 'graphios_ng.parser.ngraph.NgraphParser'>")
 
-    @unittest.skip('Not yet implemented')
     def test_pnp4nagios_parser_type(self):
         config = {'type': 'pnp4nagios'}
         p = parser.create_parser(config)
