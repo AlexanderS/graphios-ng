@@ -18,16 +18,16 @@ class ParserTest(unittest.TestCase):
         config = {'type': 'json_line'}
         p = parser.create_parser(config)
         self.assertIsNotNone(p)
-        self.assertEquals(str(type(p)), "<class 'graphios_ng.parser.json_line.JsonLineParser'>")
+        self.assertEqual(str(type(p)), "<class 'graphios_ng.parser.json_line.JsonLineParser'>")
 
     def test_ngraph_parser_type(self):
         config = {'type': 'ngraph'}
         p = parser.create_parser(config)
         self.assertIsNotNone(p)
-        self.assertEquals(str(type(p)), "<class 'graphios_ng.parser.ngraph.NgraphParser'>")
+        self.assertEqual(str(type(p)), "<class 'graphios_ng.parser.ngraph.NgraphParser'>")
 
     def test_pnp4nagios_parser_type(self):
         config = {'type': 'pnp4nagios'}
         p = parser.create_parser(config)
         self.assertIsNotNone(p)
-        self.assertEquals(str(type(p)), "<class 'graphios_ng.parser.pnp4nagios.Pnp4nagiosParser'>")
+        self.assertEqual(str(type(p)), "<class 'graphios_ng.parser.pnp4nagios.Pnp4nagiosParser'>")

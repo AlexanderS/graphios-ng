@@ -28,7 +28,7 @@ define serviceextinfo {
 
     def test_content(self):
         content = self.output._build_content(self.elem)
-        self.assertEquals(content, '''
+        self.assertEqual(content, '''
 define serviceextinfo {
     host_name            test
     service_description  te / st2
@@ -37,7 +37,7 @@ define serviceextinfo {
 
     def test_path(self):
         path = self.output._build_path(self.elem)
-        self.assertEquals(path, self.expected_path)
+        self.assertEqual(path, self.expected_path)
 
     def test_create_directory(self):
         path = self.output._build_path(self.elem)
@@ -50,8 +50,8 @@ define serviceextinfo {
         self.count = 0
         def count(elem):
             self.count += 1
-            self.assertEquals(elem['host'], 'test%d' % self.count)
-            self.assertEquals(elem['service'], '%dte / st2' % self.count)
+            self.assertEqual(elem['host'], 'test%d' % self.count)
+            self.assertEqual(elem['service'], '%dte / st2' % self.count)
 
         self.output._handle_elem = count
 
@@ -62,7 +62,7 @@ define serviceextinfo {
             {'host': 'test4', 'service': '4te / st2'}
             ]
         self.output.output(data)
-        self.assertEquals(self.count, len(data))
+        self.assertEqual(self.count, len(data))
 
     def test_handle_elem(self):
         self.assertFalse(os.path.exists(self.expected_path))
@@ -70,7 +70,7 @@ define serviceextinfo {
         self.assertTrue(os.path.exists(self.expected_path))
         with open(self.expected_path, 'r') as outputfile:
             content = outputfile.read()
-            self.assertEquals(content, '''
+        self.assertEqual(content, '''
 define serviceextinfo {
     host_name            test
     service_description  te / st2
