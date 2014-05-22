@@ -10,12 +10,12 @@ class ExtinfoOutputTest(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.mkdtemp()
         config = {'dir': self.directory,
-                  'filename': 'foo/{host}/{service}/host-{host}-service-{service}.cfg',
+                  'filename': 'foo/${host}/${service}/host-${host}-service-${service}.cfg',
                   'template': '''
-define serviceextinfo {{
-    host_name            {host}
-    service_description  {service}
-}}
+define serviceextinfo {
+    host_name            ${host}
+    service_description  ${service}
+}
 '''}
         self.output = ExtinfoOutput(config)
         self.elem = {'host': 'test', 'service': 'te / st2'}

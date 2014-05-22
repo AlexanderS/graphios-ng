@@ -21,13 +21,15 @@ class WithLogTest(unittest.TestCase):
         testing(log = 'Should not change')
 
 
-class FormatterTest(unittest.TestCase):
+class TemplateTest(unittest.TestCase):
     def test_querystring(self):
+        t = utils.Template('${query|urlencode}')
         self.assertEquals(
-            utils.formatter.format('{query!q}', query='string_of_characters_like_these:$#@=?%^Q^$'),
+            t.substitute(query='string_of_characters_like_these:$#@=?%^Q^$'),
             'string_of_characters_like_these%3A%24%23%40%3D%3F%25%5EQ%5E%24')
 
     def test_filename(self):
+        t = utils.Template('${file|filename}')
         self.assertEquals(
-            utils.formatter.format('{file!f}', file='foobar / test äöüß blub\'s'),
+            t.substitute(file='foobar / test äöüß blub\'s'),
             'foobar__test_äöüß_blubs')

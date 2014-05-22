@@ -1,7 +1,7 @@
 import os
 
 from graphios_ng.output import Output
-from graphios_ng.utils import get_valid_filename, formatter
+from graphios_ng.utils import get_valid_filename, Template
 
 
 class ExtinfoOutput(Output):
@@ -12,15 +12,17 @@ class ExtinfoOutput(Output):
         self.template = self.get_config(
             'template',
             '''
-define serviceextinfo {{
-    host_name            {host}
+define serviceextinfo {
+    host_name            ${host}
     icon_image           nagiosgrapher/dot.png' alt='' border='0'></a>'''
-            '''<a href='graphs.cgi?host={host}&service={service}'>'''
-            '''<img src='rrd2-system.cgi?host={host}&service={service}'''
+            '''<a href='graphs.cgi?host=${host|urlencode}'''
+            '''&service=${service|urlencode}'>'''
+            '''<img src='rrd2-system.cgi?host=${host|urlencode}'''
+            '''&service=${service|urlencode}'''
             '''&start=-5400&end=now&title=Actual&width=20&height=20'''
             '''&type=AVERAGE&only-graph=true'
-    service_description  {service}
-}}
+    service_description  ${service}
+}
 ''')
 
     def _write(self, filename, content):
@@ -28,11 +30,11 @@ define serviceextinfo {{
             output.write(content)
 
     def _build_content(self, elem):
-        return formatter.format(self.template, **elem)
+        return Template(self.template).safe_substitute(**elem)
 
     def _build_path(self, elem):
         templates = self.config['filename'].split('/')
-        parts = [get_valid_filename(formatter.format(template, **elem))
+        parts = [get_valid_filename(Template(template).safe_substitute(**elem))
                  for template in templates]
         return os.path.join(self.config['dir'], *parts)
 
