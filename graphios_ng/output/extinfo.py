@@ -5,12 +5,12 @@ from graphios_ng.utils import get_valid_filename, Template
 
 
 class ExtinfoOutput(Output):
-    required_config = ['dir', 'filename']
+    config_items = [('dir', True),
+                    ('filename', True),
+                    ('template', False)]
 
     def __init__(self, config):
-        super(ExtinfoOutput, self).__init__(config)
-        self.template = self.get_config(
-            'template',
+        self['template'] = (
             '''
 define serviceextinfo {
     host_name            ${host}
@@ -24,19 +24,20 @@ define serviceextinfo {
     service_description  ${service}
 }
 ''')
+        super(ExtinfoOutput, self).__init__(config)
 
     def _write(self, filename, content):
         with open(filename, 'a') as output:
             output.write(content)
 
     def _build_content(self, elem):
-        return Template(self.template).safe_substitute(**elem)
+        return Template(self['template']).safe_substitute(**elem)
 
     def _build_path(self, elem):
-        templates = self.config['filename'].split('/')
+        templates = self['filename'].split('/')
         parts = [get_valid_filename(Template(template).safe_substitute(**elem))
                  for template in templates]
-        return os.path.join(self.config['dir'], *parts)
+        return os.path.join(self['dir'], *parts)
 
     def _create_directory(self, path):
         dirname = os.path.dirname(path)

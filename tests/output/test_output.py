@@ -36,7 +36,7 @@ class OuputTest(unittest.TestCase):
         config = {'type': 'extinfo', 'dir': 123, 'filename': None}
         out = output.create_output(config)
         self.assertIsNotNone(out)
-        self.assertEqual(out.config['dir'], 123)
+        self.assertEqual(out['dir'], 123)
 
     def test_missing_config(self):
         config = {'type': 'extinfo'}

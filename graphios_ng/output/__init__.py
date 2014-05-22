@@ -5,8 +5,6 @@ from graphios_ng.configurable import Configurable
 
 
 class Output(Configurable):
-    required_config = []
-
     @with_log
     def __init__(self, config, log=None):
         super(Output, self).__init__(config)
