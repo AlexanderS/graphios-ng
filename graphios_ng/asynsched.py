@@ -160,7 +160,7 @@ def close_all(socket_map=None, ignore_all=False):
         try:
             socket.close()
         except OSError as x:
-            if x[0] == errno.EBADF:
+            if x.args[0] == errno.EBADF:
                 pass
             elif not ignore_all:
                 raise
