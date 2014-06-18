@@ -4,6 +4,9 @@ python:
   - "3.2"
   - "3.3"
 install:
-  - pip install -r requirements.txt
-  - pip install -r tests/requirements.txt
-script: bin/runtests
+  - python bootstrap.py
+  - bin/buildout
+  - pip install coveralls
+script: bin/coverage run bin/test
+after_success:
+  - coveralls

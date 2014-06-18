@@ -1,1 +1,14 @@
 *.py[co]
+/venv
+/bin/
+/src/
+/downloads/*
+/develop-eggs/
+/eggs/*
+/logs/*
+/parts/
+.installed.cfg
+.coverage
+*.egg-info
+*.mo
+!.keep
