@@ -9,4 +9,5 @@ class JsonLineParserTest(unittest.TestCase):
         self.parser = JsonLineParser(config, None)
 
     def test_incomplete_json_data(self):
-        self.parser._parse_host_perfline("{'data': 'test', 'fo")
+        with self.assertRaises(ValueError):
+            self.parser._parse_host_perfline("{'data': 'test', 'fo")
