@@ -9,9 +9,10 @@ from graphios_ng.output.extinfo import ExtinfoOutput
 class ExtinfoOutputTest(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.mkdtemp()
-        config = {'dir': self.directory,
-                  'filename': 'foo/${host}/${service}/host-${host}-service-${service}.cfg',
-                  'template': '''
+        config = {'filename': os.path.join(
+                      self.directory,
+                      'foo/${host}/${service}/host-${host}-service-${service}.cfg'),
+                  'service_template': '''
 define serviceextinfo {
     host_name            ${host}
     service_description  ${service}

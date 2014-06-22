@@ -1,11 +1,9 @@
 import importlib
 from graphios_ng.utils import with_log
-from graphios_ng.configurable import Configurable
+from graphios_ng.configurable import ConfigItem, Configurable
 
 
 class Parser(Configurable):
-    required_config = []
-
     @with_log
     def __init__(self, config, log=None):
         super(Parser, self).__init__(config)
@@ -20,6 +18,8 @@ class Parser(Configurable):
 
 
 class FileParser(Parser):
+    config_items = [ConfigItem('path', required=True)]
+
     def __init__(self, config):
         super(FileParser, self).__init__(config)
 

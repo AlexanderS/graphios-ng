@@ -33,10 +33,10 @@ class OuputTest(unittest.TestCase):
         self.assertEqual(str(type(out)), "<class 'graphios_ng.output.ngraph.NgraphOutput'>")
 
     def test_output_config(self):
-        config = {'type': 'extinfo', 'dir': 123, 'filename': None}
+        config = {'type': 'extinfo','filename': None}
         out = output.create_output(config)
         self.assertIsNotNone(out)
-        self.assertEqual(out['dir'], 123)
+        self.assertEqual(out.config['filename'], None)
 
     def test_missing_config(self):
         config = {'type': 'extinfo'}
