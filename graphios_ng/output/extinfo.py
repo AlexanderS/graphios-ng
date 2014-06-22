@@ -1,4 +1,5 @@
 import os
+from collections import defaultdict
 
 from graphios_ng.configurable import ConfigItem
 from graphios_ng.output import Output
@@ -46,17 +47,31 @@ class ExtinfoOutput(Output):
                     ConfigItem('service_template',
                                default=DEFAULT_SERVICE_TEMPLATE)]
 
+    cache = defaultdict(list)
+    """
+    This is a cache for the available markers in the file, so that not
+    every write has to scan throught the files. The dict contains the
+    filenames as keys and a list of the available markers in this file
+    as value. The cache gets filled f a new marker gets written or if
+    the marker was found the first time scanning through the file.
+    """  # pylint: disable=pointless-string-statement
+
     def _write(self, filename, elem):
         marker = self._build_marker(elem)
+        if filename in self.cache and marker.rstrip() in self.cache[filename]:
+            return
+
         with open(filename, 'a+') as output:
             for line in output:
                 if line.rstip() == marker.rstrip():
+                    self.cache[filename].append(marker.rstrip())
                     return
 
             content = self._build_content(elem)
             output.write('\n')
             output.write(marker)
             output.write(content)
+            self.cache[filename].append(marker.rstrip())
 
     def _build_content(self, elem):
         if 'service' in elem:
