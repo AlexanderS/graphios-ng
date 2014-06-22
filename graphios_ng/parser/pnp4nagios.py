@@ -5,8 +5,8 @@ from graphios_ng.utils import with_log
 class Pnp4nagiosParser(FileParser):
     required_config = []
 
-    def __init__(self, config):
-        super(Pnp4nagiosParser, self).__init__(config)
+    def __init__(self, config, handler):
+        super(Pnp4nagiosParser, self).__init__(config, handler)
 
     @with_log
     def _parse_host_perfline(self, line, log=None):

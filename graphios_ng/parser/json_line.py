@@ -5,8 +5,8 @@ from graphios_ng.utils import with_log
 
 
 class JsonLineParser(FileParser):
-    def __init__(self, config):
-        super(JsonLineParser, self).__init__(config)
+    def __init__(self, config, handler):
+        super(JsonLineParser, self).__init__(config, handler)
 
     @with_log
     def _parse_json(self, line, log=None):

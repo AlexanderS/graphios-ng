@@ -1,58 +1,40 @@
-import os
-import pyinotify
 import signal
 import sys
 
-from graphios_ng.carbon import CarbonConnection
 from graphios_ng.config import Config
-from graphios_ng.utils import with_log
+from graphios_ng.parser import create_parser
+from graphios_ng.output import create_output
 from graphios_ng import asynsched
 
 
-class Graphios(pyinotify.ProcessEvent):
+class Graphios():
     def __init__(self):
-        pyinotify.ProcessEvent.__init__(self)
-
         self.config = Config()
-        self.carbon = CarbonConnection(self.config.carbon.host,
-                                       self.config.carbon.port,
-                                       self.config.carbon.max_sleep)
-        self.spool_dir = os.path.realpath(self.config.spool_dir)
 
-        # initial files
-        files = os.listdir(self.spool_dir)
-        for filename in files:
-            self.handle_file(os.path.join(self.spool_dir, filename))
+        self.outputs = list()
+        if self.config.outputs:
+            for _output in self.config.outputs:
+                self.outputs.append(create_output(_output))
 
-        # inotify for new files
-        wm = pyinotify.WatchManager()
-        mask = (pyinotify.IN_CLOSE_WRITE |  # pylint: disable=E1101
-                pyinotify.IN_MOVED_TO)  # pylint: disable=E1101
-        pyinotify.AsyncNotifier(wm, self)
-        wm.add_watch(self.spool_dir, quiet=False, mask=mask)
+        if self.config.inputs:
+            for _input in self.config.inputs:
+                create_parser(_input, self)
 
-    @with_log
-    def handle_file(self, path, log=None):
-        filename = os.path.basename(path)
-        if filename.startswith('host-perfdata.'):
-            log.debug('Processing host performance data from %s' % path)
-        elif filename.startswith('service-perfdata.'):
-            log.debug('Processing service performance data from %s' % path)
+    def handle_data(self, data):
+        for output in self.outputs:
+            output(data)
 
-    def process_IN_CLOSE_WRITE(self, event):
-        self.handle_file(event.pathname)
-
-    def process_IN_MOVED_TO(self, event):
-        self.handle_file(event.pathname)
+    def run(self):
+        asynsched.loop()
 
 
 def main():
-    Graphios()
+    graphios = Graphios()
 
     # mainloop until interrupt
     signal.signal(signal.SIGTERM, (lambda signal, frame: sys.exit(0)))
     try:
-        asynsched.loop()
+        graphios.run()
     except KeyboardInterrupt:
         pass
 
