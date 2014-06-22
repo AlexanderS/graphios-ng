@@ -72,6 +72,7 @@ define serviceextinfo {
         with open(self.expected_path, 'r') as outputfile:
             content = outputfile.read()
         self.assertEqual(content, '''
+# ExtInfo for te / st2 on test
 define serviceextinfo {
     host_name            test
     service_description  te / st2
